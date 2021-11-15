@@ -1,8 +1,10 @@
 import java.util.ArrayList;
+import java.util.Formatter;
 
 public class StudentClass<Type> {
-    public void getQuery(String studentData, String query) {
+    public String getQuery(String studentData, String query) {
         String[] queryArray = query.split(",");
+        String str = "";
         int queryType = Integer.parseInt(queryArray[0]);
         if (queryType == 1) {
             StudentList<String> studentList = new StudentList<>();
@@ -12,23 +14,19 @@ public class StudentClass<Type> {
             }
             ArrayList<String> namesList = studentList.beginWith(queryArray[1]);
             for (String name : namesList) {
-                System.out.println(name);
+                str += (name + "\n");
             }
-            System.out.println();
-
-        } else if (queryType == 2) {
+        }else if (queryType == 2) {
             StudentList<String> studentList = new StudentList<>();
             String[] names = studentData.split(" ");
             for (int i = 0; i < names.length; i++) {
                 studentList.addElement(names[i]);
             }
             String[] groups = queryArray[1].split(" ");
-            ArrayList<String> namesList = studentList.bloodGroupOf(groups, "B+");
+            ArrayList<String> namesList = studentList.bloodGroupOf(groups, queryArray[2]);
             for (String name : namesList) {
-                System.out.println(name);
+                str+= (name + "\n");
             }
-            System.out.println();
-
         } else if (queryType == 3) {
             StudentList<Double> studentList = new StudentList<>();
             String[] scores = studentData.split(" ");
@@ -44,7 +42,9 @@ public class StudentClass<Type> {
                 scoreList.addElement(Double.parseDouble(score));
             }
             double average = scoreList.averageValues();
-            System.out.println(average);
+            Formatter f = new Formatter();
+            f.format("%.2f",average);
+            str = String.valueOf(f);
         } else if (queryType == 5) {
             ScoreList<Double> scoreList = new ScoreList<>();
             String[] scores = studentData.split(" ");
@@ -52,7 +52,10 @@ public class StudentClass<Type> {
                 scoreList.addElement(Double.parseDouble((score)));
             }
             double average = scoreList.averageValues();
-            System.out.println(average);
+            Formatter f = new Formatter();
+            f.format("%.2f",average);
+            str = String.valueOf(f);
         }
+        return str;
     }
 }
